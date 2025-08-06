@@ -14,6 +14,11 @@ bot.start(async (ctx) => {
     
     const userRef = db.collection("users").doc(telegramId);
     const userSnapshot = await userRef.get();
+    
+    const logoEcoin = "https://gateway.pinata.cloud/ipfs/bafybeibqbay4tbzr2azii4y27xlltvdqbqp6kwhseioiqbtmtzbiji6sfm";
+    const logoMiners = "https://gateway.pinata.cloud/ipfs/bafybeic2lbckwamkgm3t55xmvg6j6vsdciax5gooek3htvkxseinimq46y";
+    const miniAppUrl = process.env.MINIAPP_URL || "https://www.google.com";
+    const groups = "https://t.me/chainphonPX";
 
     if (!userSnapshot.exists) {
       // Generate referral code from Telegram ID
@@ -26,7 +31,7 @@ bot.start(async (ctx) => {
         username: user.username ? `@${user.username}` : 'Ecoin',
         first_name: user.first_name || 'Eco',
         last_name: user.last_name || 'Miners',
-        profileurl: user.photo_url || 'https://gateway.pinata.cloud/ipfs/bafybeic2lbckwamkgm3t55xmvg6j6vsdciax5gooek3htvkxseinimq46y',
+        profileurl: user.photo_url || logoMiners,
         registered_at: admin.firestore.FieldValue.serverTimestamp(),
         last_active: admin.firestore.FieldValue.serverTimestamp(),
         
@@ -74,7 +79,7 @@ bot.start(async (ctx) => {
       
       // Welcome message with logo and buttons
       await ctx.replyWithPhoto(
-        { url: `https://gateway.pinata.cloud/ipfs/bafybeibqbay4tbzr2azii4y27xlltvdqbqp6kwhseioiqbtmtzbiji6sfm` }, // Replace with your logo URL
+        { url: logoEcoin }, // Replace with your logo URL
         {
           caption: `🎉 *Welcome to ECoin Miner, ${user.first_name || 'User'}💞*\n\n` +
                    `Your referral code: *${refCode}*\n` +
@@ -82,8 +87,8 @@ bot.start(async (ctx) => {
           parse_mode: 'Markdown',
           reply_markup: {
             inline_keyboard: [
-              [{ text: '▶️ Start Mining', web_app: { url: "https:www.google.com" } }],
-              [{ text: '👥 Join Community', url: 'https://t.me/yourgroup' }] // Replace with your group link
+              [{ text: '▶️ Start Mining', web_app: { url: miniAppUrl } }],
+              [{ text: '👥 Join Community', url: groups }] // Replace with your group link
             ]
           }
         }
@@ -96,7 +101,7 @@ bot.start(async (ctx) => {
       
       // Welcome back message with logo and buttons
       await ctx.replyWithPhoto(
-        { url: 'https://example.com/logo.png' }, // Replace with your logo URL
+        { url: logoEcoin }, // Replace with your logo URL
         {
           caption: `👋 *Welcome back, ${user.first_name || 'User'}!*\n\n` +
                    `Your referral code: *${userSnapshot.data().ref_code}*\n` +
@@ -104,8 +109,8 @@ bot.start(async (ctx) => {
           parse_mode: 'Markdown',
           reply_markup: {
             inline_keyboard: [
-              [{ text: '▶️ Continue Mining', web_app: { url: process.env.MINI_APP_URL } }],
-              [{ text: '👥 Join Community', url: 'https://t.me/chainphonPX' }] // Replace with your group link
+              [{ text: '▶️ Continue Mining', web_app: { url: miniAppUrl } }],
+              [{ text: '👥 Join Community', url: groups }] // Replace with your group link
             ]
           }
         }
@@ -114,14 +119,14 @@ bot.start(async (ctx) => {
 
   } catch (error) {
     console.error('Error in start handler:', error);
-    await ctx.reply('⚠️ An error occurred. Please try again later.');
+    await ctx.reply('⚠️ SERVER IS DOWN 😭😭😭😭.');
   }
 });
 
 // Error handling
 bot.catch((err, ctx) => {
   console.error('Bot error:', err);
-  ctx.reply('⚠️ An error occurred. Please try again.');
+  ctx.reply('⚠️ SERVER IS DOWN 😭😭😭😭.');
 });
 
 // Setup webhook endpoint
@@ -131,11 +136,11 @@ bot.telegram.setWebhook(`${process.env.WEBHOOK_URL}/webhook`);
 
 // Health check endpoint
 app.get('/', (req, res) => {
-  res.status(200).send('Bot is running');
+  res.status(200).send('BOT Running successfully💞💞💞');
 });
 
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Bot running on port ${PORT}`);
+  console.log(`BOT RUNNING IN PORT - ${PORT}`);
 });
