@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { admin, db } = require("../utils/firebase");
+const admin = require("firebase-admin");
+const { db } = require("./utils/firebase");
 
 // POST /api/user  => create or update user profile (telegram webapp init data)
 router.post("/", async (req, res) => {
